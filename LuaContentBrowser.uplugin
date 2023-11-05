@@ -1,0 +1,23 @@
+﻿{
+	"FileVersion": 3,
+	"Version": 1,
+	"VersionName": "1.0",
+	"FriendlyName": "LuaContentBrowser",
+	"Description": "Lua文件浏览器",
+	"Category": "Other",
+	"CreatedBy": "Taozi",
+	"CreatedByURL": "",
+	"DocsURL": "",
+	"MarketplaceURL": "",
+	"CanContainContent": false,
+	"IsBetaVersion": true,
+	"IsExperimentalVersion": false,
+	"Installed": false,
+	"Modules": [
+		{
+			"Name": "LuaContentBrowser",
+			"Type": "Editor",
+			"LoadingPhase": "Default"
+		}
+	]
+}
