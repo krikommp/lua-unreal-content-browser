@@ -51,6 +51,5 @@ const FString& FContentBrowserLuaScriptFileItemDataPayload::GetFilename() const
 
 void FContentBrowserLuaScriptFileItemDataPayload::UpdateThumbnail(FAssetThumbnail& InThumbnail) const
 {
-	UE_LOG(LogTemp, Warning, TEXT("FContentBrowserLuaScriptFileItemDataPayload::UpdateThumbnail"));
 	InThumbnail.SetAsset(AssetData);
 }
