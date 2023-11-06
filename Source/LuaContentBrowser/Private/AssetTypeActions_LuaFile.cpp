@@ -3,6 +3,7 @@
 #include "LuaFile.h"
 #include "SourceCodeNavigation.h"
 #include "LuaContentBrowserUtil.h"
+#include "LuaEditorStyle.h"
 
 #define LOCTEXT_NAMESPACE "LuaContentBrowser"
 
@@ -31,6 +32,17 @@ void FAssetTypeActions_LuaFile::OpenAssetEditor(const TArray<UObject*>& InObject
 uint32 FAssetTypeActions_LuaFile::GetCategories()
 {
 	return EAssetTypeCategories::Basic;
+}
+
+const FSlateBrush* FAssetTypeActions_LuaFile::GetIconBrush(const FAssetData& InAssetData, const FName InClassName) const
+{
+	return FLuaEditorStyle::Get().GetBrush("LuaIcon.LuaScript");
+}
+
+const FSlateBrush* FAssetTypeActions_LuaFile::GetThumbnailBrush(const FAssetData& InAssetData,
+	const FName InClassName) const
+{
+	return FLuaEditorStyle::Get().GetBrush("LuaThumbnail.LuaScript");
 }
 
 #undef LOCTEXT_NAMESPACE

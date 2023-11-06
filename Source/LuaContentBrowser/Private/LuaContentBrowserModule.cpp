@@ -15,11 +15,21 @@ void FLuaContentBrowserModule::StartupModule()
 	FLuaEditorStyle::Initialize();
 	ClassDataSource.Reset(NewObject<ULuaContentBrowserDataSource>(GetTransientPackage(), "LuaData"));
 	ClassDataSource->Initialize();
+
+	// 注册菜单
+	IAssetTools& AssetTools = FModuleManager::LoadModuleChecked<FAssetToolsModule>("AssetTools").Get();
+	LuaFileAssetTypeActions = MakeShareable(new FAssetTypeActions_LuaFile());
+	AssetTools.RegisterAssetTypeActions(LuaFileAssetTypeActions.ToSharedRef());
 }
 
 void FLuaContentBrowserModule::ShutdownModule()
 {
 	ClassDataSource.Reset();
+	if (FModuleManager::Get().IsModuleLoaded("AssetTools"))
+	{
+		IAssetTools& AssetTools = FModuleManager::Get().GetModuleChecked<FAssetToolsModule>("AssetTools").Get();
+		AssetTools.UnregisterAssetTypeActions(LuaFileAssetTypeActions.ToSharedRef());
+	}
 }
 
 #undef LOCTEXT_NAMESPACE

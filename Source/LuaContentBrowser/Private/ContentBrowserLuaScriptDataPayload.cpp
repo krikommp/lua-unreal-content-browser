@@ -1,8 +1,10 @@
 #include "ContentBrowserLuaScriptDataPayload.h"
 
+#include "IAssetTypeActions.h"
 #include "LuaContentBrowserUtil.h"
 #include "SourceCodeNavigation.h"
 #include "LuaFile.h"
+#include "AssetToolsModule.h"
 
 FContentBrowserLuaScriptFileItemDataPayload::FContentBrowserLuaScriptFileItemDataPayload(const FName InInternalPath,ULuaFile* InScript)
 	: InternalPath(InInternalPath), Script(InScript), AssetData(InScript)
@@ -49,5 +51,6 @@ const FString& FContentBrowserLuaScriptFileItemDataPayload::GetFilename() const
 
 void FContentBrowserLuaScriptFileItemDataPayload::UpdateThumbnail(FAssetThumbnail& InThumbnail) const
 {
+	UE_LOG(LogTemp, Warning, TEXT("FContentBrowserLuaScriptFileItemDataPayload::UpdateThumbnail"));
 	InThumbnail.SetAsset(AssetData);
 }

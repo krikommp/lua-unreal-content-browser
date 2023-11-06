@@ -38,8 +38,8 @@ FName FLuaEditorStyle::GetStyleSetName()
 
 void FLuaEditorStyle::AddBrushManually()
 {
-	StyleInstance->Set("LuaThumbnail.LuaScript", new IMAGE_BRUSH(TEXT("IconResources/Lua@256"), Icon128x128));
-	StyleInstance->Set("LuaIcon.LuaScript", new IMAGE_BRUSH(TEXT("IconResources/Lua@128"), Icon16x16));
+	StyleInstance->Set("LuaThumbnail.LuaScript", new IMAGE_BRUSH(TEXT("Icon/Lua@256"), Icon128x128));
+	StyleInstance->Set("LuaIcon.LuaScript", new IMAGE_BRUSH(TEXT("Icon/Lua@128"), Icon16x16));
 }
 
 TSharedRef<FSlateStyleSet> FLuaEditorStyle::Create()
