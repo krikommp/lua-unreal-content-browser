@@ -1,5 +1,6 @@
 #include "AssetTypeActions_LuaFile.h"
 
+#include "LuaCodeProjectEditor.h"
 #include "LuaFile.h"
 #include "SourceCodeNavigation.h"
 #include "LuaContentBrowserUtil.h"
@@ -19,14 +20,19 @@ UClass* FAssetTypeActions_LuaFile::GetSupportedClass() const
 
 void FAssetTypeActions_LuaFile::OpenAssetEditor(const TArray<UObject*>& InObjects, TSharedPtr<IToolkitHost> EditWithinLevelEditor)
 {
-	TArray<FString> FilesToOpen;
+	EToolkitMode::Type Mode = EditWithinLevelEditor.IsValid() ? EToolkitMode::WorldCentric : EToolkitMode::Standalone;
+	// TArray<FString> FilesToOpen;
 	for (UObject* Object : InObjects)
 	{
-		const ULuaFile* LuaFile = Cast<ULuaFile>(Object);
-
-		FilesToOpen.Add(LUA::ConvertInternalPathToAbsolutePath(LuaFile->EntryPath));
+		if (ULuaFile* CodeProject = Cast<ULuaFile>(Object))
+		{
+			TSharedRef<FLuaCodeProjectEditor> NewCodeProjectEditor(new FLuaCodeProjectEditor());
+			NewCodeProjectEditor->InitCodeEditor(Mode, EditWithinLevelEditor, CodeProject);
+			NewCodeProjectEditor->OpenFileForEditing(CodeProject);
+		}
 	}
-	FSourceCodeNavigation::OpenSourceFiles(FilesToOpen);
+
+	// FSourceCodeNavigation::OpenSourceFiles(FilesToOpen);
 }
 
 uint32 FAssetTypeActions_LuaFile::GetCategories()

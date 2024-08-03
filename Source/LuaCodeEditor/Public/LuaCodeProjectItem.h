@@ -1,13 +1,10 @@
-﻿// Fill out your copyright notice in the Description page of Project Settings.
+﻿#pragma once
 
-#pragma once
+#include "LuaCodeProjectItem.generated.h"
 
-#include "CoreMinimal.h"
-#include "UObject/Object.h"
-#include "LuaProjectItem.generated.h"
-
+/** Types of project items. Note that the enum ordering determines the tree sorting */
 UENUM()
-namespace ELuaProjectItemType
+namespace ELuaCodeProjectItemType
 {
 	enum Type : int
 	{
@@ -17,9 +14,8 @@ namespace ELuaProjectItemType
 	};
 }
 
-
 UCLASS()
-class LUACONTENTBROWSER_API ULuaProjectItem : public UObject
+class LUACODEEDITOR_API ULuaCodeProjectItem : public UObject
 {
 	GENERATED_UCLASS_BODY()
 
@@ -27,14 +23,14 @@ public:
 
 	void RescanChildren();
 
-	void HandleDirectoryScanned(const FString& InPathName, ELuaProjectItemType::Type InType);
+	void HandleDirectoryScanned(const FString& InPathName, ELuaCodeProjectItemType::Type InType);
 
 	/** Handle directory changing */
 	void HandleDirectoryChanged(const TArray<struct FFileChangeData>& FileChanges);
 
 public:
 	UPROPERTY(Transient)
-	TEnumAsByte<ELuaProjectItemType::Type> Type;
+	TEnumAsByte<ELuaCodeProjectItemType::Type> Type;
 
 	UPROPERTY(Transient)
 	FString Name;
@@ -46,7 +42,7 @@ public:
 	FString Path;
 
 	UPROPERTY(Transient)
-	TArray<TObjectPtr<ULuaProjectItem>> Children;
+	TArray<TObjectPtr<ULuaCodeProjectItem>> Children;
 
 	/** Delegate handle for directory watcher */
 	FDelegateHandle OnDirectoryChangedHandle;

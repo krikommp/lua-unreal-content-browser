@@ -1,8 +1,8 @@
 ﻿#pragma once
 
-#include "LuaProjectItem.h"
+#include "LuaCodeProjectItem.h"
 
-DECLARE_DELEGATE_TwoParams(FOnDirectoryScanned, const FString& /*InPathName*/, ELuaProjectItemType::Type /*InType*/);
+DECLARE_DELEGATE_TwoParams(FOnDirectoryScanned, const FString& /*InPathName*/, ELuaCodeProjectItemType::Type /*InType*/);
 
 class FDirectoryScanner
 {

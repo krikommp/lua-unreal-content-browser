@@ -70,7 +70,7 @@ FContentBrowserItemData ULuaContentBrowserDataSource::OnFinalizeCreateAsset(cons
 	IContentBrowserItemDataPayload* IPayload = const_cast<IContentBrowserItemDataPayload*>(InItemData.GetPayload().Get());
 	const FContentBrowserLuaScriptFileItemDataPayload* LuaScriptPayload = static_cast<FContentBrowserLuaScriptFileItemDataPayload*>(IPayload);
 
-	LuaScriptHierarchy->ScriptCreate(LuaScriptPayload->GetScript()->EntryPath, InProposedName);
+	LuaScriptHierarchy->ScriptCreate(LuaScriptPayload->GetScript()->Path, InProposedName);
 
 	return FContentBrowserItemData();
 }
@@ -268,7 +268,7 @@ bool ULuaContentBrowserDataSource::GetItemAttribute(const FContentBrowserItemDat
 	if (const auto& Payload = GetScriptFileItemPayload(InItem))
 	{
 		FString Suffix;
-		Payload->GetScript()->EntryPath.Split(".", nullptr, &Suffix, ESearchCase::IgnoreCase, ESearchDir::FromEnd);
+		Payload->GetScript()->Path.Split(".", nullptr, &Suffix, ESearchCase::IgnoreCase, ESearchDir::FromEnd);
 		TypeAction = FileTypeAction;
 	}
 	else
@@ -308,7 +308,7 @@ bool ULuaContentBrowserDataSource::EditItem(const FContentBrowserItemData& InIte
 	if (const auto Payload = GetScriptFileItemPayload(InItem))
 	{
 		FString Suffix;
-		Payload->GetScript()->EntryPath.Split(".", nullptr, &Suffix, ESearchCase::IgnoreCase, ESearchDir::FromEnd);
+		Payload->GetScript()->Path.Split(".", nullptr, &Suffix, ESearchCase::IgnoreCase, ESearchDir::FromEnd);
 		TypeAction = FileTypeAction;
 	}
 	else
@@ -487,7 +487,7 @@ FContentBrowserItemData ULuaContentBrowserDataSource::CreateScriptFolderItem(con
 
 FContentBrowserItemData ULuaContentBrowserDataSource::CreateScriptFileItem(ULuaFile* InFile)
 {
-	const FName ScriptPath = *InFile->EntryPath;
+	const FName ScriptPath = *InFile->Path;
 	FName VirtualizedPath;
 	TryConvertInternalPathToVirtual(ScriptPath, VirtualizedPath);
 

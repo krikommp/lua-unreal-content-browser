@@ -58,8 +58,9 @@ TSharedPtr<FLuaScriptHierarchyNode> FLuaScriptHierarchyNode::MakeNodeEntry(const
 		default:
 			break;
 		}
-		NewEntry->Script->EntryPath = InEntryPath + "." + InSuffix;
-		NewEntry->Script->Suffix = InSuffix;
+		NewEntry->Script->Path = InEntryPath + "." + InSuffix;
+		NewEntry->Script->Extension = InSuffix;
+		NewEntry->Script->Name = InEntryName.ToString();
 		NewEntry->Script->AddToRoot();
 	}
 
@@ -310,7 +311,7 @@ void FLuaScriptHierarchy::RefreshHierarchy(TArray<FName>& OutWaitToAsyncFolders,
 		{
 			if (Node.Value->NodeType != ELuaScriptHierarchyNodeType::Folder)
 			{
-				FString Path = LUA::ConvertInternalPathToAbsolutePath(Node.Value->Script->EntryPath);
+				FString Path = LUA::ConvertInternalPathToAbsolutePath(Node.Value->Script->Path);
 				if (PlatformFile.FileExists(*Path)) continue;
 
 				WaitToDeleteNodes.Add(Node.Key);
@@ -509,7 +510,9 @@ ULuaFile* FLuaScriptHierarchy::ScriptPreCreate(const FString& InEntryPath, const
 	{
 		UPackage* Package = EntryToPackageMap.FindChecked(*InEntryPath);
 		ULuaFile* Script = NewObject<ULuaFile>(Package, InEntryName);
-		Script->EntryPath = InEntryPath / InEntryName.ToString() + ".lua";
+		Script->Path = InEntryPath / InEntryName.ToString() + ".lua";
+		Script->Name = InEntryName.ToString();
+		Script->Extension = ".lua";
 		Script->AddToRoot();
 		return Script;
 	}

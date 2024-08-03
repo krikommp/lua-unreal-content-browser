@@ -509,7 +509,7 @@ namespace ContentBrowserLuaScriptData
 		TArray<FString> FilesToDelete;
 		for (const TSharedRef<const FContentBrowserLuaScriptFileItemDataPayload>& ClassPayload : ClassPayloads)
 		{
-			FilesToDelete.Add(LUA::ConvertInternalPathToAbsolutePath(ClassPayload->GetScript()->EntryPath));
+			FilesToDelete.Add(LUA::ConvertInternalPathToAbsolutePath(ClassPayload->GetScript()->Path));
 		}
 
 		TArray<TSharedRef<const FContentBrowserLuaScriptFolderItemDataPayload>, TInlineAllocator<16>> FolderPayloads;

@@ -7,15 +7,16 @@ TArray<FDirectoryScannerCommand*> FDirectoryScanner::CommandQueue;
 
 struct FDirectoryResult
 {
-	FDirectoryResult(const FString& InPathName, ELuaProjectItemType::Type InType)
+	FDirectoryResult(const FString& InPathName, ELuaCodeProjectItemType::Type InType)
 		: PathName(InPathName)
 		, Type(InType)
 	{
+		Extension = InType == ELuaCodeProjectItemType::File ? FPaths::GetExtension(InPathName) : "";
 	}
 
 	FString PathName;
-
-	ELuaProjectItemType::Type Type;
+	FString Extension;
+	ELuaCodeProjectItemType::Type Type;
 };
 
 struct FDirectoryScannerCommand : public IQueuedWork
@@ -47,11 +48,11 @@ struct FDirectoryScannerCommand : public IQueuedWork
 			{
 				if(bIsDirectory)
 				{
-					FoundFiles.Push(new FDirectoryResult(FilenameOrDirectory, ELuaProjectItemType::Folder));
+					FoundFiles.Push(new FDirectoryResult(FilenameOrDirectory, ELuaCodeProjectItemType::Folder));
 				}
 				else
 				{
-					FoundFiles.Push(new FDirectoryResult(FilenameOrDirectory, ELuaProjectItemType::File));
+					FoundFiles.Push(new FDirectoryResult(FilenameOrDirectory, ELuaCodeProjectItemType::File));
 				}
 
 				return true;
@@ -89,7 +90,16 @@ bool FDirectoryScanner::Tick()
 			while(!Command.FoundFiles.IsEmpty())
 			{
 				FDirectoryResult* DirectoryResult = Command.FoundFiles.Pop();
-				Command.OnDirectoryScanned.ExecuteIfBound(DirectoryResult->PathName, DirectoryResult->Type);
+				if (DirectoryResult->Type == ELuaCodeProjectItemType::File && DirectoryResult->Extension == "lua")
+				{
+					Command.OnDirectoryScanned.ExecuteIfBound(DirectoryResult->PathName, DirectoryResult->Type);
+				}else if (DirectoryResult->Type == ELuaCodeProjectItemType::Folder)
+				{
+					Command.OnDirectoryScanned.ExecuteIfBound(DirectoryResult->PathName, DirectoryResult->Type);
+				}else if (DirectoryResult->Type == ELuaCodeProjectItemType::Project)
+				{
+					Command.OnDirectoryScanned.ExecuteIfBound(DirectoryResult->PathName, DirectoryResult->Type);
+				}
 				delete DirectoryResult;
 				bAddedData = true;
 			}

@@ -18,6 +18,11 @@
 			"Name": "LuaContentBrowser",
 			"Type": "Editor",
 			"LoadingPhase": "Default"
+		},
+		{
+			"Name": "LuaCodeEditor",
+			"Type": "Editor",
+			"LoadingPhase": "Default"
 		}
 	]
 }

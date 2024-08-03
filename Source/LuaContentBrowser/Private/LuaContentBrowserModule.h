@@ -14,16 +14,11 @@ class FAssetTypeActions_LuaFile;
  */
 class FLuaContentBrowserModule : public IModuleInterface
 {
-private:
-	static TSharedRef<SDockTab> SpawnLuaCodeEditorTab(const FSpawnTabArgs& TagArgs);
-	static void OpenLuaCodeEditor();
-	
 public:
 
 	/** IModuleInterface implementation */
 	virtual void StartupModule() override;
 	virtual void ShutdownModule() override;
-	virtual void OnPostEngineInit();
 
 private:
 	TStrongObjectPtr<ULuaContentBrowserDataSource> ClassDataSource;

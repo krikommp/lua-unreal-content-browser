@@ -3,11 +3,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "LuaCodeProject.h"
 #include "UObject/Object.h"
-#include "LuaCodeProject.generated.h"
+#include "LuaFile.generated.h"
 
 UCLASS()
-class LUACONTENTBROWSER_API ULuaCodeProject : public UObject
+class LUACONTENTBROWSER_API ULuaFile : public ULuaCodeProject
 {
 	GENERATED_BODY()
 };
