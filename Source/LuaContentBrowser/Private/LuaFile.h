@@ -3,15 +3,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "LuaCodeProject.h"
 #include "UObject/Object.h"
 #include "LuaFile.generated.h"
 
 UCLASS()
-class LUACONTENTBROWSER_API ULuaFile : public UObject
+class LUACONTENTBROWSER_API ULuaFile : public ULuaCodeProject
 {
 	GENERATED_BODY()
-	
-public:
-	FString EntryPath;
-	FString Suffix;
 };

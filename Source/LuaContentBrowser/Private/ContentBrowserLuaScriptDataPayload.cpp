@@ -43,7 +43,7 @@ const FString& FContentBrowserLuaScriptFileItemDataPayload::GetFilename() const
 {
 	if (!bHasCachedFilename)
 	{
-		CachedFilename = LUA::ConvertInternalPathToAbsolutePath(Script->EntryPath);
+		CachedFilename = LUA::ConvertInternalPathToAbsolutePath(Script->Path);
 		bHasCachedFilename = true;
 	}
 	return CachedFilename;
