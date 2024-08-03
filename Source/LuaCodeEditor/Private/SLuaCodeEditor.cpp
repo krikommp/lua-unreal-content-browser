@@ -89,7 +89,8 @@ bool SLuaCodeEditor::Save() const
 {
 	if(bDirty)
 	{
-		bool bResult = FFileHelper::SaveStringToFile(CodeEditableText->GetText().ToString(), *CodeProjectItem->Path);
+		FString FullPath = ConvertVirtualPathToDiskPath(*CodeProjectItem->Path);
+		bool bResult = FFileHelper::SaveStringToFile(CodeEditableText->GetText().ToString(), *FullPath);
 		if(bResult)
 		{
 			bDirty = false;
