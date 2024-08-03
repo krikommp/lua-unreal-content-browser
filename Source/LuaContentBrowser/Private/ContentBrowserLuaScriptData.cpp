@@ -6,6 +6,7 @@
 #include "IPropertyAccessEditor.h"
 #include "LuaContentBrowserUtil.h"
 #include "LuaFile.h"
+#include "UObject/AssetRegistryTagsContext.h"
 
 #define LOCTEXT_NAMESPACE "ContentBrowserLuaScriptData"
 
@@ -23,15 +24,16 @@ const FClassTagDefinitionMap& GetAvailableClassTags()
 	{
 		FClassTagDefinitionMap ClassTagsTmp;
 
-		TArray<UObject::FAssetRegistryTag> CDOClassTags;
-		GetDefault<UClass>()->GetAssetRegistryTags(CDOClassTags);
+		const UObject* ClassDefault = GetDefault<UClass>();
+		FAssetRegistryTagsContextData TagsContext(ClassDefault, EAssetRegistryTagsCaller::Uncategorized);
+		ClassDefault->GetAssetRegistryTags(TagsContext);
 
-		for (const UObject::FAssetRegistryTag& CDOClassTag : CDOClassTags)
+		for (const TPair<FName,UObject::FAssetRegistryTag>& TagPair : TagsContext.Tags)
 		{
-			FScriptTagDefinition& ClassTag = ClassTagsTmp.Add(CDOClassTag.Name);
-			ClassTag.TagType = CDOClassTag.Type;
-			ClassTag.DisplayFlags = CDOClassTag.DisplayFlags;
-			ClassTag.DisplayName = FText::AsCultureInvariant(FName::NameToDisplayString(CDOClassTag.Name.ToString(), /*bIsBool*/false));
+			FScriptTagDefinition& ClassTag = ClassTagsTmp.Add(TagPair.Key);
+			ClassTag.TagType = TagPair.Value.Type;
+			ClassTag.DisplayFlags = TagPair.Value.DisplayFlags;
+			ClassTag.DisplayName = FText::AsCultureInvariant(FName::NameToDisplayString(TagPair.Key.ToString(), /*bIsBool*/false));
 		}
 
 		return ClassTagsTmp;
